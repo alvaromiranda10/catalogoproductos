@@ -1,0 +1,187 @@
+{% extends "templates/header.twig" %}
+{% block content %}    
+    <h1>Listados de usuarios</h1>
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        Crear usuario
+    </button>
+    
+    <div class="row">
+        <div class="col-md-12 m-1">
+            <form action="/usuarios/insert" method="post" class="collapse needs-validation" id="collapseExample" novalidate>
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" name="nombre"class="form-control" required>
+                    <div class="invalid-feedback">
+                        Ingrersar un nombre.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" name="email" class="form-control" required>
+                    <div class="invalid-feedback">
+                        Ingrersar un nombre.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="contrasena">Contraseña:</label>
+                    <input type="text" name="contrasena" class="form-control" required>
+                    <div class="invalid-feedback">
+                        Ingrersar un nombre.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="rol" id="administrador" value="administrador" checked required>
+                        <label class="form-check-label" for="administrador">
+                            Administrador
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="rol" id="comprador" value="comprador" required>
+                        <label class="form-check-label" for="comprador">
+                            Comprador
+                        </label>
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-primary" value="Registrar">
+            </form>
+        </div>
+        <div class="col-md-12 m-1">
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">nombre</th>
+                        <th scope="col">mail</th>
+                        <th scope="col">rol</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in usuarios %}
+                    {% if user.mail != sessionEmail %}
+                    <tr>
+                        <th>{{ user.ID_USUARIO }}</th>
+                        <th>{{ user.nombre }}</th>
+                        <th>{{ user.mail }}</th>
+                        <th>{{ user.rol }}</th>
+                        <th>
+                            <a href="/usuarios/delete/{{user.ID_USUARIO}}" class="btn btn-danger"> Eliminar</a>
+                            <button id="actualizarUsuario" 
+                                    data-idusuario="{{user.ID_USUARIO}}" 
+                                    data-nombre="{{user.nombre}}" 
+                                    data-mail="{{user.mail}}" 
+                                    data-rol="{{user.rol}}" 
+                                    data-contrasena="{{user.contrasena}}" 
+                                    class="actualizar btn btn-warning"
+                                    data-toggle="modal" 
+                                    data-target="#exampleModal"> Actualizar
+                            </button>
+                        </th>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- Modal Actualizar Usuario -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Actualizar Usuario</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="/usuarios/update" method="post" class="needs-validation" novalidate>
+                        <div class="modal-body">
+                                <input id="idusuario" type="hidden" name="ID_USUARIO">
+                            <div class="form-group">
+                                <label for="nombre">Nombre:</label>
+                                <input id="nombre" type="text" name="nombre" class="form-control" required>
+                                <div class="invalid-feedback">
+                                    Ingrersar un nombre.
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input id="email" type="email" name="email" class="form-control" required>
+                                <div class="invalid-feedback">
+                                    Ingrersar email.
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="contrasena">Contraseña:</label>
+                                <input id="contrasena" type="text" name="contrasena" class="form-control" required>
+                                <div class="invalid-feedback">
+                                    Ingrersar una contraseña.
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="rol" id="administradorupdate" value="administrador" required>
+                                    <label class="form-check-label" for="administradorupdate">
+                                        Administrador
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="rol" id="compradorupdate" value="comprador" required>
+                                    <label class="form-check-label" for="compradorupdate">
+                                        Comprador
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary" value="Actualizar">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
+{% block scriptFooter %}    
+
+    <script>
+
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+        });
+    }, false);
+    })();
+
+    $('#exampleModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); 
+            var modal = $(this);
+            modal.find('#idusuario').val(button.data('idusuario'));
+            modal.find('#nombre').val(button.data('nombre'));
+            modal.find('#email').val(button.data('mail'));
+            modal.find('#contrasena').val(button.data('contrasena'));
+            modal.find('input[name=rol]').each(function() {
+            if($(this).val() == button.data('rol')){
+                $(this).prop('checked', true);
+            }
+            });
+        });    
+    </script>
+
+
+{% endblock %}

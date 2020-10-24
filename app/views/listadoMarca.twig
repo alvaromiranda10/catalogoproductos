@@ -1,0 +1,152 @@
+{% extends "templates/header.twig" %}
+{% block content %}    
+    <h1>Listados de Marcas</h1>
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        Crear Marca
+    </button>
+    
+    <div class="row">
+        <div class="col-md-12 m-1">
+            <form action="/marcas/insert" method="post" class="collapse needs-validation" id="collapseExample" novalidate>
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" name="nombre"class="form-control" required>
+                    <div class="invalid-feedback">
+                        Ingrersar un nombre.
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="estado" id="activado" value="activado" checked required>
+                        <label class="form-check-label" for="activado">
+                            Activado
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="estado" id="desactivado" value="desactivado" required>
+                        <label class="form-check-label" for="desactivado">
+                            Desactivado
+                        </label>
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-primary" value="Registrar">
+            </form>
+        </div>
+        <div class="col-md-12 m-1">
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">nombre</th>
+                        <th scope="col">estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for marca in marcas %}
+                    <tr>
+                        <th>{{ marca.ID_MARCA }}</th>
+                        <th>{{ marca.nombre }}</th>
+                        <th>{{ marca.estado }}</th>
+                        <th>
+                            <a href="/marcas/delete/{{marca.ID_MARCA}}" class="btn btn-danger"> Eliminar</a>
+                            <button id="actualizarMarca" 
+                                    data-idmarca="{{marca.ID_MARCA}}" 
+                                    data-nombre="{{marca.nombre}}" 
+                                    data-estado="{{marca.estado}}" 
+                                    class="actualizar btn btn-warning"
+                                    data-toggle="modal" 
+                                    data-target="#exampleModal"> Actualizar
+                            </button>
+                        </th>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- Modal Actualizar Usuario -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Actualizar Marca</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="/marcas/update" method="post" class="needs-validation" novalidate>
+                        <div class="modal-body">
+                                <input id="idmarca" type="hidden" name="ID_MARCA">
+                            <div class="form-group">
+                                <label for="nombre">Nombre:</label>
+                                <input id="nombre" type="text" name="nombre" class="form-control" required>
+                                <div class="invalid-feedback">
+                                    Ingrersar un nombre.
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="estado" id="activadoupdate" value="activado" required>
+                                    <label class="form-check-label" for="activadoupdate">
+                                        Activado
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="estado" id="desactivadoupdate" value="desactivado" required>
+                                    <label class="form-check-label" for="desactivadoupdate">
+                                        Desactivado
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary" value="Actualizar">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
+{% block scriptFooter %}    
+
+    <script>
+
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+        });
+    }, false);
+    })();
+
+    $('#exampleModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); 
+            var modal = $(this);
+            modal.find('#idmarca').val(button.data('idmarca'));
+            modal.find('#nombre').val(button.data('nombre'));
+            modal.find('input[name=estado]').each(function() {
+            if($(this).val() == button.data('estado')){
+                $(this).prop('checked', true);
+            }
+            });
+        });    
+    </script>
+
+
+{% endblock %}
