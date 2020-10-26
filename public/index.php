@@ -11,8 +11,11 @@ require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../app/dao/UsuarioDAO.php';
 
 // Cargar variable de entorno
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ ."./../");
-$dotenv->load();
+if(is_readable(__DIR__ ."./../.env"))
+{
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ ."./../");
+    $dotenv->load();
+}
 
 // Create Container
 $container = new Container();
