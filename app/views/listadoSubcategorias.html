@@ -1,21 +1,39 @@
-{% extends "templates/header.twig" %}
+{% extends "templates/containerSubcategoria.twig" %}
 {% block content %}    
-    <h1>Listados de Marcas</h1>
-    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-        Crear Marca
+
+<nav class="navbar navbar-dark bg-dark navbar-expand-lg ">
+    <a class="navbar-brand" href="#">PROweb</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
     </button>
+    <div class="collapse navbar-collapse flex-row-reverse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class=" btn btn-outline-primary mr-2" href="/categorias">Ir a categorias</a>
+            <a class=" btn btn-outline-warning " href="/salir">Salir </a>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    
+<button class="btn btn-primary m-2" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    Crear Subcategoria
+</button>
     
     <div class="row">
+        <!-- FORM -->
         <div class="col-md-12 m-1">
-            <form action="/marcas/insert" method="post" class="collapse needs-validation" id="collapseExample" novalidate>
+            <form action="/subcategorias/insert" method="post" class="collapse needs-validation" id="collapseExample" novalidate>
+                <div class="form-group">
+                    <label for="nombre">Categoria: <strong>{{ nombrecategoria }}</strong></label>
+                    <input type="hidden" name="id_categoria"class="form-control" value="{{ idcategoria }}" required>
+                </div>
                 <div class="form-group">
                     <label for="nombre">Nombre:</label>
                     <input type="text" name="nombre"class="form-control" required>
                     <div class="invalid-feedback">
-                        Ingrersar un nombre.
+                        Ingresar un nombre.
                     </div>
                 </div>
-                
                 <div class="form-group">
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="estado" id="activado" value="activado" checked required>
@@ -33,28 +51,32 @@
                 <input type="submit" class="btn btn-primary" value="Registrar">
             </form>
         </div>
+        <!-- TABLE -->
         <div class="col-md-12 m-1">
-            <table class="table table-dark">
-                <thead>
+            <table class="table">
+                <thead class="thead-light">
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">nombre</th>
                         <th scope="col">estado</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for marca in marcas %}
+                    {% for subcategoria in subcategorias %}
                     <tr>
-                        <th>{{ marca.ID_MARCA }}</th>
-                        <th>{{ marca.nombre }}</th>
-                        <th>{{ marca.estado }}</th>
+                        <th>{{ subcategoria.ID_SUBCATEGORIA }}</th>
+                        <th>{{ subcategoria.nombre }}</th>
+                        <th>{{ subcategoria.estado }}</th>
+                        <th>{{ nombrecategoria }}</th>
                         <th>
-                            <a href="/marcas/delete/{{marca.ID_MARCA}}" class="btn btn-danger"> Eliminar</a>
-                            <button id="actualizarMarca" 
-                                    data-idmarca="{{marca.ID_MARCA}}" 
-                                    data-nombre="{{marca.nombre}}" 
-                                    data-estado="{{marca.estado}}" 
-                                    class="actualizar btn btn-warning"
+                            <a href="/subcategorias/delete/{{subcategoria.ID_SUBCATEGORIA}}" class="eliminarSubcategoria btn btn-danger">Eliminar</a>
+                            <button id="actualizarSubcategoria" 
+                                    data-idsubcategoria="{{subcategoria.ID_SUBCATEGORIA}}" 
+                                    data-nombre="{{subcategoria.nombre}}" 
+                                    data-estado="{{subcategoria.estado}}" 
+                                    class=" btn btn-warning"
                                     data-toggle="modal" 
                                     data-target="#exampleModal"> Actualizar
                             </button>
@@ -71,22 +93,24 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Actualizar Marca</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Actualizar Subcategoria</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="/marcas/update" method="post" class="needs-validation" novalidate>
+                    <form action="/subcategorias/update" method="post" class="needs-validation" novalidate>
                         <div class="modal-body">
-                                <input id="idmarca" type="hidden" name="ID_MARCA">
+                            <div class="form-group">
+                                <label for="nombre">Categoria: <strong>{{ nombrecategoria }}</strong></label>
+                            </div>
+                            <input id="idsubcategoria" type="hidden" name="ID_SUBCATEGORIA">
                             <div class="form-group">
                                 <label for="nombre">Nombre:</label>
                                 <input id="nombre" type="text" name="nombre" class="form-control" required>
                                 <div class="invalid-feedback">
-                                    Ingrersar un nombre.
+                                    Ingresar un nombre.
                                 </div>
                             </div>
-                            
                             <div class="form-group">
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="estado" id="activadoupdate" value="activado" required>
@@ -138,7 +162,7 @@
     $('#exampleModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); 
             var modal = $(this);
-            modal.find('#idmarca').val(button.data('idmarca'));
+            modal.find('#idsubcategoria').val(button.data('idsubcategoria'));
             modal.find('#nombre').val(button.data('nombre'));
             modal.find('input[name=estado]').each(function() {
             if($(this).val() == button.data('estado')){
@@ -146,6 +170,13 @@
             }
             });
         });    
+
+    $(".eliminarSubcategoria").click(function (e) {
+    var answer = confirm('Are you sure that you want to do this?');
+    if (!answer) {
+        e.preventDefault();
+    }
+    });
     </script>
 
 

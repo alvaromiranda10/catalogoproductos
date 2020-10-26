@@ -1,25 +1,26 @@
 <?php
-require __DIR__ . '/../model/Marca.php';
+require __DIR__ . '/../model/Subcategoria.php';
 require_once __DIR__ . '/../BD/Conexion.php';
 
-class MarcaDAO
+class SubcategoriaDAO
 {
 
     private $DB;
-    private $marca;
+    private $subcategeoria;
 
     public function __construct()
     {
         $this->DB = new Conexion();
-        $this->marca = new Marca();
+        $this->subcategeoria = new Subcategoria();
 
     }
 
-    public function read()
+    public function read($id_categoria)
     {
         try 
         {
-            $stmt = $this->DB->prepare("SELECT * FROM marca");
+            $stmt = $this->DB->prepare("SELECT * FROM subcategoria WHERE CATEGORIA_ID = ?");
+            $stmt->bindValue(1, $id_categoria);
             $stmt->execute();
             $results = $stmt->fetchAll();
             return $results;
@@ -28,17 +29,17 @@ class MarcaDAO
         {
             return $e->getMessage();
         }
-    }
-    
 
-    
-    public function insert($marca)
+    }
+
+    public function insert($subcategoria)
     {
         try
         {
-            $stmt = $this->DB->prepare("INSERT INTO marca (ID_MARCA, nombre, estado) VALUES (NULL, ?, ?)");
-            $stmt->bindValue(1, $marca->getNombre());
-            $stmt->bindValue(2, $marca->getEstado());
+            $stmt = $this->DB->prepare("INSERT INTO subcategoria (ID_SUBCATEGORIA, nombre, CATEGORIA_ID, estado) VALUES (NULL, ?, ?, ?)");
+            $stmt->bindValue(1, $subcategoria->getNombre());
+            $stmt->bindValue(2, $subcategoria->getCATEGORIA_ID());
+            $stmt->bindValue(3, $subcategoria->getEstado());
             $stmt->execute();
             $resultado = $stmt->rowCount();
             
@@ -52,15 +53,14 @@ class MarcaDAO
         {
             return $e->getMessage();
         }
-        
     }
-    
-    public function delete($id_marca)
+
+    public function delete($id_subcategoria)
     {
         try 
         {
-            $stmt = $this->DB->prepare("DELETE FROM marca WHERE ID_MARCA = ?");
-            $stmt->bindParam(1, $id_marca);
+            $stmt = $this->DB->prepare("DELETE FROM subcategoria WHERE ID_SUBCATEGORIA = ?");
+            $stmt->bindParam(1, $id_subcategoria);
             $stmt->execute();
             $resultado = $stmt->rowCount();
 
@@ -74,23 +74,23 @@ class MarcaDAO
         {
             return $e->getMessage();
         }
+
     }
-    
-    public function update($marca)
+
+    public function update($subcategoria)
     {
         try
         {
-            $stmt = $this->DB->prepare("UPDATE marca SET nombre = ?, estado = ?  WHERE ID_MARCA = ?");
-            $stmt->bindValue(1, $marca->getNombre());
-            $stmt->bindValue(2, $marca->getEstado());
-            $stmt->bindValue(3, $marca->getID_MARCA());
+            $stmt = $this->DB->prepare("UPDATE subcategoria SET nombre = ?, estado = ?  WHERE ID_SUBCATEGORIA = ?");
+            $stmt->bindValue(1, $subcategoria->getNombre());
+            $stmt->bindValue(2, $subcategoria->getEstado());
+            $stmt->bindValue(3, $subcategoria->getID_SUBCATEGORIA());
             $stmt->execute();
 
         }catch(PDOException $e)
         {
             return $e->getMessage();
         }
-        
-    }
 
+    }
 }

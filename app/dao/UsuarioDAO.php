@@ -32,7 +32,7 @@ require_once __DIR__ . '/../BD/Conexion.php';
         }
 
         
-        public function insert($Usuario)
+        public function insert($usuario)
         {
             try
             {
@@ -73,16 +73,16 @@ require_once __DIR__ . '/../BD/Conexion.php';
             }
         }
 
-        public function update($Usuario)
+        public function update($usuario)
         {
             try 
             {
                 $stmt = $this->DB->prepare("UPDATE usuario SET nombre=?, mail=?, contrasena=?, rol=? WHERE ID_USUARIO = ? ");
-                $stmt->bindValue(1, $Usuario->getNombre());
-                $stmt->bindValue(2, $Usuario->getMail());
-                $stmt->bindValue(3, $Usuario->getContrasena());
-                $stmt->bindValue(4, $Usuario->getRol());
-                $stmt->bindValue(5, $Usuario->getID_USUARIO());
+                $stmt->bindValue(1, $usuario->getNombre());
+                $stmt->bindValue(2, $usuario->getMail());
+                $stmt->bindValue(3, $usuario->getContrasena());
+                $stmt->bindValue(4, $usuario->getRol());
+                $stmt->bindValue(5, $usuario->getID_USUARIO());
                 $stmt->execute(); 
 
             } catch (PDOException $e) 

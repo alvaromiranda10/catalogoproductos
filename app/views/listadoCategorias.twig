@@ -1,0 +1,178 @@
+{% extends "templates/container.twig" %}
+{% block content %}    
+<nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+    <a class="navbar-brand" href="#">PROweb</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-between " id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="/usuarios">Usuarios </a>
+            <a class="nav-item nav-link" href="/marcas">Marcas</a>
+            <a class="nav-item nav-link active" href="/categorias">Categorias</a>
+        </div>
+        <div class="form-inline">
+            <a class="btn btn-outline-warning" href="/salir">Salir </a>
+        </div>
+    </div>
+</nav>
+<div class="container">
+<button class="btn btn-primary m-2" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        Crear Categoria
+    </button>
+    
+    <div class="row">
+        <div class="col-md-12 m-1">
+            <form action="/categorias/insert" method="post" class="collapse needs-validation" id="collapseExample" novalidate>
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" name="nombre"class="form-control" required>
+                    <div class="invalid-feedback">
+                        Ingresar un nombre.
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="estado" id="activado" value="activado" checked required>
+                        <label class="form-check-label" for="activado">
+                            Activado
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="estado" id="desactivado" value="desactivado" required>
+                        <label class="form-check-label" for="desactivado">
+                            Desactivado
+                        </label>
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-primary" value="Registrar">
+            </form>
+        </div>
+        <div class="col-md-12 m-1">
+            <table class="table ">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">nombre</th>
+                        <th scope="col">estado</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for categoria in categorias %}
+                    <tr>
+                        <th>{{ categoria.ID_CATEGORIA }}</th>
+                        <th>{{ categoria.nombre }}</th>
+                        <th>{{ categoria.estado }}</th>
+                        <th>
+                            <a href="/categorias/delete/{{categoria.ID_CATEGORIA}}" class="eliminarCategoria btn btn-danger"> Eliminar</a>
+                            <button id="actualizarCategoria" 
+                                    data-idcategoria="{{categoria.ID_CATEGORIA}}" 
+                                    data-nombre="{{categoria.nombre}}" 
+                                    data-estado="{{categoria.estado}}" 
+                                    class="actualizar btn btn-warning"
+                                    data-toggle="modal" 
+                                    data-target="#exampleModal"> Actualizar
+                            </button>
+                            <a href="/subcategorias/listado/{{categoria.nombre}}/{{categoria.ID_CATEGORIA}}" class="btn btn-info">Ir a Subcategorias</a>
+                        </th>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- Modal Actualizar Usuario -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Actualizar Categoria</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="/categorias/update" method="post" class="needs-validation" novalidate>
+                        <div class="modal-body">
+                                <input id="idcategoria" type="hidden" name="ID_CATEGORIA">
+                            <div class="form-group">
+                                <label for="nombre">Nombre:</label>
+                                <input id="nombre" type="text" name="nombre" class="form-control" required>
+                                <div class="invalid-feedback">
+                                    Ingresar un nombre.
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="estado" id="activadoupdate" value="activado" required>
+                                    <label class="form-check-label" for="activadoupdate">
+                                        Activado
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="estado" id="desactivadoupdate" value="desactivado" required>
+                                    <label class="form-check-label" for="desactivadoupdate">
+                                        Desactivado
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary" value="Actualizar">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block scriptFooter %}    
+
+    <script>
+
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+        });
+    }, false);
+    })();
+
+    $('#exampleModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); 
+            var modal = $(this);
+            modal.find('#idcategoria').val(button.data('idcategoria'));
+            modal.find('#nombre').val(button.data('nombre'));
+            modal.find('input[name=estado]').each(function() {
+            if($(this).val() == button.data('estado')){
+                $(this).prop('checked', true);
+            }
+            });
+        });    
+
+    $(".eliminarCategoria").click(function (e) {
+    var answer = confirm('Are you sure that you want to do this?');
+    if (!answer) {
+        e.preventDefault();
+    }
+    });
+    </script>
+
+
+{% endblock %}

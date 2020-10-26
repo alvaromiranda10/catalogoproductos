@@ -1,17 +1,17 @@
 <?php
-require __DIR__ . '/../model/Marca.php';
+require __DIR__ . '/../model/Categoria.php';
 require_once __DIR__ . '/../BD/Conexion.php';
 
-class MarcaDAO
+class CategoriaDAO
 {
 
     private $DB;
-    private $marca;
+    private $categoria;
 
     public function __construct()
     {
         $this->DB = new Conexion();
-        $this->marca = new Marca();
+        $this->marca = new Categoria();
 
     }
 
@@ -19,7 +19,7 @@ class MarcaDAO
     {
         try 
         {
-            $stmt = $this->DB->prepare("SELECT * FROM marca");
+            $stmt = $this->DB->prepare("SELECT * FROM categoria");
             $stmt->execute();
             $results = $stmt->fetchAll();
             return $results;
@@ -32,13 +32,13 @@ class MarcaDAO
     
 
     
-    public function insert($marca)
+    public function insert($categoria)
     {
         try
         {
-            $stmt = $this->DB->prepare("INSERT INTO marca (ID_MARCA, nombre, estado) VALUES (NULL, ?, ?)");
-            $stmt->bindValue(1, $marca->getNombre());
-            $stmt->bindValue(2, $marca->getEstado());
+            $stmt = $this->DB->prepare("INSERT INTO categoria (ID_CATEGORIA, nombre, estado) VALUES (NULL, ?, ?)");
+            $stmt->bindValue(1, $categoria->getNombre());
+            $stmt->bindValue(2, $categoria->getEstado());
             $stmt->execute();
             $resultado = $stmt->rowCount();
             
@@ -55,12 +55,13 @@ class MarcaDAO
         
     }
     
-    public function delete($id_marca)
+    public function delete($id_categoria)
     {
+
         try 
         {
-            $stmt = $this->DB->prepare("DELETE FROM marca WHERE ID_MARCA = ?");
-            $stmt->bindParam(1, $id_marca);
+            $stmt = $this->DB->prepare("DELETE FROM categoria WHERE ID_CATEGORIA = ?");
+            $stmt->bindParam(1, $id_categoria);
             $stmt->execute();
             $resultado = $stmt->rowCount();
 
@@ -74,23 +75,24 @@ class MarcaDAO
         {
             return $e->getMessage();
         }
+        
     }
-    
-    public function update($marca)
+
+    public function update($categoria)
     {
         try
         {
-            $stmt = $this->DB->prepare("UPDATE marca SET nombre = ?, estado = ?  WHERE ID_MARCA = ?");
-            $stmt->bindValue(1, $marca->getNombre());
-            $stmt->bindValue(2, $marca->getEstado());
-            $stmt->bindValue(3, $marca->getID_MARCA());
+            $stmt = $this->DB->prepare("UPDATE categoria SET nombre = ?, estado = ?  WHERE ID_CATEGORIA = ?");
+            $stmt->bindValue(1, $categoria->getNombre());
+            $stmt->bindValue(2, $categoria->getEstado());
+            $stmt->bindValue(3, $categoria->getID_CATEGORIA());
             $stmt->execute();
 
         }catch(PDOException $e)
         {
             return $e->getMessage();
         }
-        
+       
     }
 
 }

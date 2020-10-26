@@ -1,7 +1,23 @@
-{% extends "templates/header.twig" %}
+{% extends "templates/container.twig" %}
 {% block content %}    
-    <h1>Listados de usuarios</h1>
-    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+<nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+    <a class="navbar-brand" href="#">PROweb</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-between " id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="/usuarios">Usuarios </a>
+            <a class="nav-item nav-link" href="/marcas">Marcas</a>
+            <a class="nav-item nav-link" href="/categorias">Categorias</a>
+        </div>
+        <div class="form-inline">
+            <a class="btn btn-outline-warning" href="/salir">Salir </a>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <button class="btn btn-primary m-2" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
         Crear usuario
     </button>
     
@@ -12,7 +28,7 @@
                     <label for="nombre">Nombre:</label>
                     <input type="text" name="nombre"class="form-control" required>
                     <div class="invalid-feedback">
-                        Ingrersar un nombre.
+                        Ingresar un nombre.
                     </div>
                 </div>
                 <div class="form-group">
@@ -47,8 +63,8 @@
             </form>
         </div>
         <div class="col-md-12 m-1">
-            <table class="table table-dark">
-                <thead>
+            <table class="table">
+                <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">nombre</th>
@@ -66,7 +82,7 @@
                         <th>{{ user.mail }}</th>
                         <th>{{ user.rol }}</th>
                         <th>
-                            <a href="/usuarios/delete/{{user.ID_USUARIO}}" class="btn btn-danger"> Eliminar</a>
+                            <a href="/usuarios/delete/{{user.ID_USUARIO}}" class="eliminarUsuario btn btn-danger"> Eliminar</a>
                             <button id="actualizarUsuario" 
                                     data-idusuario="{{user.ID_USUARIO}}" 
                                     data-nombre="{{user.nombre}}" 
@@ -103,7 +119,7 @@
                                 <label for="nombre">Nombre:</label>
                                 <input id="nombre" type="text" name="nombre" class="form-control" required>
                                 <div class="invalid-feedback">
-                                    Ingrersar un nombre.
+                                    Ingresar un nombre.
                                 </div>
                             </div>
                             <div class="form-group">
@@ -143,6 +159,7 @@
                 </div>
             </div>
         </div>
+</div>
 
 {% endblock %}
 {% block scriptFooter %}    
@@ -181,6 +198,13 @@
             }
             });
         });    
+
+    $(".eliminarUsuario").click(function (e) {
+    var answer = confirm('Are you sure that you want to do this?');
+    if (!answer) {
+        e.preventDefault();
+    }
+    });
     </script>
 
 

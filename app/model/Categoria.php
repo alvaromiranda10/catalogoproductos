@@ -4,16 +4,16 @@
     {
         private $ID_CATEGORIA;
         private $nombre;
-        private $activo;
+        private $estado;
 
         
         
-    public function getIDCATEGORIA()
+    public function getID_CATEGORIA()
     { 
  		return $this->IDCATEGORIA; 
 	} 
 
-    public function setIDCATEGORIA($IDCATEGORIA)
+    public function setID_CATEGORIA($IDCATEGORIA)
     {  
 		$this->IDCATEGORIA = $IDCATEGORIA; 
 	} 
@@ -28,14 +28,14 @@
 		$this->nombre = $nombre; 
 	} 
 
-    public function getActivo()
+    public function getEstado()
     { 
- 		return $this->activo; 
+ 		return $this->estado; 
 	} 
 
-    public function setActivo($activo)
+    public function setEstado($estado)
     {  
-		$this->activo = $activo; 
+		$this->estado = $estado; 
 	} 
     
 }
