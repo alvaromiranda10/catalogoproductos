@@ -20,7 +20,7 @@ AppFactory::setContainer($container);
 
 // Set view in Container
 $container->set('view', function() {
-    return Twig::create('../app/views',
+    return Twig::create(__DIR__ .'./../app/views',
         ['cache' => false]);
 });
 
