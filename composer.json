@@ -5,5 +5,8 @@
         "slim/twig-view": "^3.1",
         "php-di/slim-bridge": "^3.0",
         "vlucas/phpdotenv": "^5.2"
-    }
+    },
+    "scripts": {
+        "start": "php -S localhost:8000 -t public"
+	}
 }
