@@ -1,5 +1,5 @@
 <?php
-require_once('config.php');
+// require_once('config.php');
 
     class Conexion extends PDO
     {
@@ -9,7 +9,8 @@ require_once('config.php');
         {
             try {
                 
-                parent::__construct("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+                parent::__construct("mysql:host=" .$_ENV['DB_HOST'] .";dbname=" .$_ENV['DB_NAME'], $_ENV['DB_USER'], $_ENV['DB_PASS'], 
+                                    array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
                 $this->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
 
             } catch (PDOException $e) {
