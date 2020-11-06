@@ -66,14 +66,14 @@
                 <tbody>
                     {% for subcategoria in subcategorias %}
                     <tr>
-                        <th>{{ subcategoria.ID_SUBCATEGORIA }}</th>
+                        <th>{{ subcategoria.id_subcategoria }}</th>
                         <th>{{ subcategoria.nombre }}</th>
                         <th>{{ subcategoria.estado }}</th>
                         <th>{{ nombrecategoria }}</th>
                         <th>
-                            <a href="/subcategorias/delete/{{subcategoria.ID_SUBCATEGORIA}}" class="eliminarSubcategoria btn btn-danger">Eliminar</a>
+                            <a href="/subcategorias/delete/{{subcategoria.id_subcategoria}}" class="eliminarSubcategoria btn btn-danger">Eliminar</a>
                             <button id="actualizarSubcategoria" 
-                                    data-idsubcategoria="{{subcategoria.ID_SUBCATEGORIA}}" 
+                                    data-idsubcategoria="{{subcategoria.id_subcategoria}}" 
                                     data-nombre="{{subcategoria.nombre}}" 
                                     data-estado="{{subcategoria.estado}}" 
                                     class=" btn btn-warning"
@@ -103,7 +103,7 @@
                             <div class="form-group">
                                 <label for="nombre">Categoria: <strong>{{ nombrecategoria }}</strong></label>
                             </div>
-                            <input id="idsubcategoria" type="hidden" name="ID_SUBCATEGORIA">
+                            <input id="idsubcategoria" type="hidden" name="id_subcategoria">
                             <div class="form-group">
                                 <label for="nombre">Nombre:</label>
                                 <input id="nombre" type="text" name="nombre" class="form-control" required>

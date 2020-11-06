@@ -23,14 +23,14 @@ return function(App $app){
             
             $mdao = new MarcaDAO;
             $data = $mdao->read();
-            return $this->get('view')->render($response, 'listadoMarcas.twig',
+            return $this->get('view')->render($response, 'marcas.twig',
             array(  'marcas'=> $data,
             'sessionEmail' =>$_SESSION['email']));
             
         });
         
         
-        $group->post('/insert', function(RequestInterface $request, ResponseInterface $response, $args)
+        $group->post('/insert', function(RequestInterface $request, ResponseInterface $response)
         {
             // SESSION INICIO
             $udao = new UsuarioDAO;
@@ -70,7 +70,7 @@ return function(App $app){
             
         });
         
-        $group->post('/update', function(RequestInterface $request, ResponseInterface $response, $args)
+        $group->post('/update', function(RequestInterface $request, ResponseInterface $response)
         {
             // SESSION INICIO
             $udao = new UsuarioDAO;
@@ -83,7 +83,7 @@ return function(App $app){
             
             $data = $request->getParsedBody();
             $marca = new Marca();
-            $marca->setID_MARCA($data['ID_MARCA']);
+            $marca->setID_MARCA($data['id_marca']);
             $marca->setNombre($data['nombre']);
             $marca->setEstado($data['estado']);
             

@@ -22,7 +22,7 @@ $app->group('/subcategorias', function(RouteCollectorProxy $group){
 
         $subcdao = new SubcategoriaDAO;
             $data = $subcdao->read($args['idcategoria']);
-            return $this->get('view')->render($response, 'listadoSubcategorias.html',
+            return $this->get('view')->render($response, 'subcategorias.twig',
             array('subcategorias'=> $data,
                 'nombrecategoria' => $args['nombrecategoria'],
                 'idcategoria' => $args['idcategoria'],
@@ -82,7 +82,7 @@ $app->group('/subcategorias', function(RouteCollectorProxy $group){
 
         $data = $request->getParsedBody();
         $subcategoria = new Subcategoria();
-        $subcategoria->setID_SUBCATEGORIA($data['ID_SUBCATEGORIA']);
+        $subcategoria->setID_SUBCATEGORIA($data['id_subcategoria']);
         $subcategoria->setNombre($data['nombre']);
         $subcategoria->setEstado($data['estado']);
         

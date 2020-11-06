@@ -1,0 +1,343 @@
+{% extends "templates/container.twig" %}
+{% block content %}    
+<nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+    <a class="navbar-brand" href="#">PROweb</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-between " id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="/usuarios">Usuarios </a>
+            <a class="nav-item nav-link" href="/marcas">Marcas</a>
+            <a class="nav-item nav-link" href="/categorias">Categorias</a>
+            <a class="nav-item nav-link active" href="/productos">Productos</a>
+        </div>
+        <div class="form-inline">
+            <a class="btn btn-outline-warning" href="/salir">Salir </a>
+        </div>
+    </div>
+</nav>
+<div class="container">
+<button class="btn btn-primary m-2" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        Crear Producto
+    </button>
+    
+    <div class="row">
+        <div class="col-md-12 m-1">
+            <form action="/productos/insert" method="post" class="collapse needs-validation" id="collapseExample" enctype="multipart/form-data" novalidate>
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" name="nombre"class="form-control" required>
+                    <div class="invalid-feedback">
+                        Ingresar un nombre.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" name="url_imagen" id="url_imagen" lang="es" required>
+                        <label class="custom-file-label" for="url_imagen">Ningun archivo elegido</label>
+                        <div class="invalid-feedback">
+                            Seleccionar una imagen
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="descripcion">Descripcion:</label>
+                    <input type="text" name="descripcion"class="form-control" required>
+                    <div class="invalid-feedback">
+                        Ingresar una descripcion.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="marca_id">Marca:</label>
+                    <select class="form-control" name="marca_id" required>
+                        <option value="" selected disabled>Elige una opción</option>
+                        {% for marca in marcas %}
+                        <option value="{{ marca.id_marca}}">{{ marca.nombre}}</option>
+                        {% endfor %}
+                      </select>
+                    <div class="invalid-feedback">
+                        Seleccionar una marca.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="subcategoria_id">Subcategoria:</label>
+                    <select class="form-control" name="subcategoria_id" required>
+                        <option value="" selected disabled>Elige una opción</option>
+                        {% for subcategoria in subcategorias %}
+                        <option value="{{subcategoria.id_subcategoria}}">{{subcategoria.nombre}} - {{subcategoria.nombrecategoria}} </option>
+                        {% endfor %}
+                    </select>
+                    <div class="invalid-feedback">
+                        Seleccionar una subcategoria.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="modelo">Modelo:</label>
+                    <input type="text" name="modelo" class="form-control" required>
+                    <div class="invalid-feedback">
+                        Ingresar un modelo.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="precio">Precio:</label>
+                    <input type="number" name="precio" class="form-control" required>
+                    <div class="invalid-feedback">
+                        Ingresar un precio.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="estado" id="activado" value="activado" checked required>
+                        <label class="form-check-label" for="activado">
+                            Activado
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="estado" id="desactivado" value="desactivado" required>
+                        <label class="form-check-label" for="desactivado">
+                            Desactivado
+                        </label>
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-primary" value="Registrar">
+            </form>
+        </div>
+        <div class="col-md-12 m-1">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">nombre</th>
+                        <th scope="col">descripcion</th>
+                        <th scope="col">imagen</th>
+                        <th scope="col">marca</th>
+                        <th scope="col">subcategoria</th>
+                        <th scope="col">categoria</th>
+                        <th scope="col">modelo</th>
+                        <th scope="col">precio</th>
+                        <th scope="col">estado</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in productos %}
+                    <tr>
+                        <th>{{ producto.id_producto }}</th>
+                        <th>{{ producto.nombre }}</th>
+                        <th>{{ producto.descripcion }}</th>
+                        <th class="w-25">
+                            <a href="#" class="pop">
+                                <img src="uploads/{{ producto.url_imagen }}"class="img-fluid img-thumbnail" alt="example">
+                            </a>
+                        </th>
+                        <th>{{ producto.nombremarca }}</th>
+                        <th>{{ producto.nombresubcategoria }}</th>
+                        <th>{{ producto.nombrecategoria }}</th>
+                        <th>{{ producto.modelo }}</th>
+                        <th>{{ producto.precio }}</th>
+                        <th>{{ producto.estado }}</th>
+                        <th>
+                            <a href="/productos/delete/{{producto.id_producto}}" class="eliminarProducto btn btn-danger"> Eliminar</a>
+                            <button 
+                                    data-idproducto="{{producto.id_producto}}" 
+                                    data-nombre="{{producto.nombre}}" 
+                                    data-descripcion="{{producto.descripcion}}" 
+                                    data-marca_id="{{producto.marca_id}}" 
+                                    data-subcategoria_id="{{producto.subcategoria_id}}" 
+                                    data-modelo="{{producto.modelo}}" 
+                                    data-precio="{{producto.precio}}" 
+                                    data-estado="{{producto.estado}}" 
+                                    class="actualizar btn btn-warning"
+                                    data-toggle="modal" 
+                                    data-target="#exampleModal"> Actualizar
+                            </button>
+                        </th>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- Modal Actualizar Porducto -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Actualizar Producto</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="/productos/update" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
+                        <div class="modal-body">
+                                <input id="idproducto" type="hidden" name="id_producto">
+                            <div class="form-group">
+                                <label for="nombre">Nombre:</label>
+                                <input id="nombre" type="text" name="nombre" class="form-control" required>
+                                <div class="invalid-feedback">
+                                    Ingresar un nombre.
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" name="url_imagen" id="url_imagen" lang="es">
+                                    <label class="custom-file-label" for="url_imagen">Ningun archivo elegido</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="descripcion">Descripcion:</label>
+                                <input id="descripcion" type="text" name="descripcion"class="form-control" required>
+                                <div class="invalid-feedback">
+                                    Ingresar una descripcion.
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="marca_id">Marca:</label>
+                                <select id="marca_id" class="form-control" name="marca_id" required>
+                                    <option value="" selected disabled>Elige una opción</option>
+                                    {% for marca in marcas %}
+                                    <option value="{{ marca.id_marca}}">{{ marca.nombre}}</option>
+                                    {% endfor %}
+                                  </select>
+                                <div class="invalid-feedback">
+                                    Seleccionar una marca.
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="subcategoria_id">Subcategoria:</label>
+                                <select id="subcategoria_id" class="form-control" name="subcategoria_id" required>
+                                    <option value="" selected disabled>Elige una opción</option>
+                                    {% for subcategoria in subcategorias %}
+                                    <option value="{{subcategoria.id_subcategoria}}">{{subcategoria.nombre}} - {{subcategoria.nombrecategoria}} </option>
+                                    {% endfor %}
+                                </select>
+                                <div class="invalid-feedback">
+                                    Seleccionar una subcategoria.
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="modelo">Modelo:</label>
+                                <input id="modelo" type="text" name="modelo" class="form-control" required>
+                                <div class="invalid-feedback">
+                                    Ingresar un modelo.
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="precio">Precio:</label>
+                                <input id="precio" type="number" name="precio" class="form-control" required>
+                                <div class="invalid-feedback">
+                                    Ingresar un precio.
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="estado" id="activadoupdate" value="activado" required>
+                                    <label class="form-check-label" for="activadoupdate">
+                                        Activado
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="estado" id="desactivadoupdate" value="desactivado" required>
+                                    <label class="form-check-label" for="desactivadoupdate">
+                                        Desactivado
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary" value="Actualizar">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL VIEW IMAGEN -->
+        <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">              
+                  <img src="" class="imagepreview" style="width: 100%;" >
+              </div>
+            </div>
+        </div>
+         
+    </div>
+
+{% endblock %}
+{% block scriptFooter %}    
+
+    <script>
+                
+
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+        });
+    }, false);
+    })();
+
+    $('input[name=url_imagen]').on('change',function(){
+        //get the file name
+        var fileName = $(this).val().split('\\').pop();;
+        if(fileName === "")
+        {
+            $(this).next('.custom-file-label').html("Ningun archivo elegido");
+        }else
+        {
+            $(this).next('.custom-file-label').html(fileName);
+        }
+    });
+
+    $('.pop').on('click', function() {
+			$('.imagepreview').attr('src', $(this).find('img').attr('src'));
+			$('#imagemodal').modal('show');   
+	});
+
+    $('#exampleModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); 
+            var modal = $(this);
+            modal.find('#idproducto').val(button.data('idproducto'));
+            modal.find('#nombre').val(button.data('nombre'));
+            modal.find('#url_imagen').val('').next('.custom-file-label').html("Ningun archivo elegido");
+            modal.find('#descripcion').val(button.data('descripcion'));
+            modal.find('#modelo').val(button.data('modelo'));
+            modal.find('#precio').val(button.data('precio'));
+            // SELECT BEGIN            
+            modal.find('#marca_id').val(button.data('marca_id'));
+            modal.find('#subcategoria_id').val(button.data('subcategoria_id'));
+            // SELECT END
+            modal.find('input[name=estado]').each(function() {
+            if($(this).val() == button.data('estado')){
+                $(this).prop('checked', true);
+            }
+            });
+        });    
+
+    $(".eliminarProducto").click(function (e) {
+    var answer = confirm('Are you sure that you want to do this?');
+    if (!answer) {
+        e.preventDefault();
+    }
+    });
+    </script>
+
+
+{% endblock %}

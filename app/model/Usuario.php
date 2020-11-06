@@ -7,15 +7,6 @@
         private $contrasena;
         private $rol;
         private $estado;
-
-        public function __contruc($ID_USUARIO, $nombre, $mail, $contrasena, $rol, $estado){
-            $this->ID_USUARIO = $ID_USUARIO;
-            $this->nombre = $nombre;
-            $this->mail = $mail;
-            $this->contrasena = $contrasena;
-            $this->rol = $rol;
-            $this->estado = $estado;
-        }
         
         public function getID_USUARIO(){
             return $this->ID_USUARIO;

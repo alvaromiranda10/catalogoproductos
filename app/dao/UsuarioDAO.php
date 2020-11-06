@@ -19,7 +19,7 @@ require_once __DIR__ . '/../BD/Conexion.php';
         {
             try 
             {
-                $stmt = $this->DB->prepare("SELECT * FROM USUARIO");
+                $stmt = $this->DB->prepare("SELECT * FROM usuario");
                 $stmt->execute();
                 $results = $stmt->fetchAll();
                 return $results;
@@ -36,11 +36,11 @@ require_once __DIR__ . '/../BD/Conexion.php';
         {
             try
             {
-                $stmt = $this->DB->prepare("INSERT INTO usuario (ID_USUARIO, nombre, mail, contrasena, rol, estado) VALUES (NULL, ?, ?, ?, ?, '')");
-                $stmt->bindValue(1, $Usuario->getNombre());
-                $stmt->bindValue(2, $Usuario->getMail());
-                $stmt->bindValue(3, $Usuario->getContrasena());
-                $stmt->bindValue(4, $Usuario->getRol());
+                $stmt = $this->DB->prepare("INSERT INTO usuario ( nombre, mail, contrasena, rol, estado) VALUES ( ?, ?, ?, ?, '')");
+                $stmt->bindValue(1, $usuario->getNombre());
+                $stmt->bindValue(2, $usuario->getMail());
+                $stmt->bindValue(3, $usuario->getContrasena());
+                $stmt->bindValue(4, $usuario->getRol());
                 $stmt->execute(); 
              
             }catch(PDOException $e) 
@@ -55,7 +55,7 @@ require_once __DIR__ . '/../BD/Conexion.php';
         {
             try 
             {
-                $stmt = $this->DB->prepare("DELETE FROM usuario WHERE ID_USUARIO = ?");
+                $stmt = $this->DB->prepare("DELETE FROM usuario WHERE id_usuario = ?");
                 $stmt->bindParam(1, $id_usuario);
                 $stmt->execute();
                 $resultado = $stmt->rowCount();
@@ -77,7 +77,7 @@ require_once __DIR__ . '/../BD/Conexion.php';
         {
             try 
             {
-                $stmt = $this->DB->prepare("UPDATE usuario SET nombre=?, mail=?, contrasena=?, rol=? WHERE ID_USUARIO = ? ");
+                $stmt = $this->DB->prepare("UPDATE usuario SET nombre=?, mail=?, contrasena=?, rol=? WHERE id_usuario = ? ");
                 $stmt->bindValue(1, $usuario->getNombre());
                 $stmt->bindValue(2, $usuario->getMail());
                 $stmt->bindValue(3, $usuario->getContrasena());

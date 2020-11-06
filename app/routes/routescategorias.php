@@ -23,7 +23,7 @@ $app->group('/categorias', function(RouteCollectorProxy $group){
 
         $cdao = new CategoriaDAO;
             $data = $cdao->read();
-            return $this->get('view')->render($response, 'listadoCategorias.twig',
+            return $this->get('view')->render($response, 'categorias.twig',
             array(  'categorias'=> $data,
             'sessionEmail' =>$_SESSION['email']));
         
@@ -78,9 +78,10 @@ $app->group('/categorias', function(RouteCollectorProxy $group){
             return $response->withHeader('Location','/ingreso')->withStatus(302);
         }
         //SESSION FIN
+        
         $data = $request->getParsedBody();
         $categoria = new Categoria();
-        $categoria->setID_CATEGORIA($data['ID_CATEGORIA']);
+        $categoria->setID_CATEGORIA($data['id_categoria']);
         $categoria->setNombre($data['nombre']);
         $categoria->setEstado($data['estado']);
         

@@ -9,7 +9,7 @@
         {
             try {
                 
-                parent::__construct("mysql:host=" .$_ENV['DB_HOST'] .";dbname=" .$_ENV['DB_NAME'], $_ENV['DB_USER'], $_ENV['DB_PASS'], 
+                parent::__construct($_ENV['DB_MOTOR'] .":host=" .$_ENV['DB_HOST'] .";port=" .$_ENV['DB_PORT'] .";dbname=" .$_ENV['DB_NAME'], $_ENV['DB_USER'], $_ENV['DB_PASS'], 
                                     array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
                 $this->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
 

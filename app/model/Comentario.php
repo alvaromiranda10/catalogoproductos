@@ -2,23 +2,61 @@
 
 class Comentarios
 {
-    private $ID_COMENTARIO;
+    private $id_comentario;
     private $resena;
     private $rankeo;
     private $fecha;
-    private $activo;
+    private $estado;
     private $mail;
 
-    public function __construct($resena, $rankeo, $fecha, $activo, $mail){
+    function getIdcomentario() { 
+        return $this->id_comentario; 
+   } 
 
-        $this->resena = $resena;
-        $this->rankeo = $rankeo;
-        $this->fecha = $fecha;
-        $this->activo = $activo;
-        $this->mail = $mail;
-    }
+   function setIdcomentario($idcomentario) {  
+       $this->id_comentario = $idcomentario; 
+   } 
+   
+   function getResena() { 
+        return $this->resena; 
+   } 
+   
+   function setResena($resena) {  
+       $this->resena = $resena; 
+   } 
 
-    
+   function getRankeo() { 
+        return $this->rankeo; 
+   } 
+   
+   function setRankeo($rankeo) {  
+       $this->rankeo = $rankeo; 
+   } 
+   
+   function getFecha() { 
+        return $this->fecha; 
+   } 
+   
+   function setFecha($fecha) {  
+       $this->fecha = $fecha; 
+   } 
+   
+   function getEstado() { 
+        return $this->estado; 
+   } 
+   
+   function setEstado($estado) {  
+       $this->estado = $estado; 
+   } 
+   
+   function getMail() { 
+        return $this->mail; 
+   } 
+   
+   function setMail($mail) {  
+       $this->mail = $mail; 
+   } 
+   
 }
 
 ?> 

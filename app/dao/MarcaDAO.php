@@ -36,7 +36,7 @@ class MarcaDAO
     {
         try
         {
-            $stmt = $this->DB->prepare("INSERT INTO marca (ID_MARCA, nombre, estado) VALUES (NULL, ?, ?)");
+            $stmt = $this->DB->prepare("INSERT INTO marca ( nombre, estado) VALUES ( ?, ?)");
             $stmt->bindValue(1, $marca->getNombre());
             $stmt->bindValue(2, $marca->getEstado());
             $stmt->execute();
@@ -59,7 +59,7 @@ class MarcaDAO
     {
         try 
         {
-            $stmt = $this->DB->prepare("DELETE FROM marca WHERE ID_MARCA = ?");
+            $stmt = $this->DB->prepare("DELETE FROM marca WHERE id_marca = ?");
             $stmt->bindParam(1, $id_marca);
             $stmt->execute();
             $resultado = $stmt->rowCount();
@@ -80,7 +80,7 @@ class MarcaDAO
     {
         try
         {
-            $stmt = $this->DB->prepare("UPDATE marca SET nombre = ?, estado = ?  WHERE ID_MARCA = ?");
+            $stmt = $this->DB->prepare("UPDATE marca SET nombre = ?, estado = ?  WHERE id_marca = ?");
             $stmt->bindValue(1, $marca->getNombre());
             $stmt->bindValue(2, $marca->getEstado());
             $stmt->bindValue(3, $marca->getID_MARCA());

@@ -19,7 +19,7 @@ class SubcategoriaDAO
     {
         try 
         {
-            $stmt = $this->DB->prepare("SELECT * FROM subcategoria WHERE CATEGORIA_ID = ?");
+            $stmt = $this->DB->prepare("SELECT * FROM subcategoria WHERE categoria_id = ?");
             $stmt->bindValue(1, $id_categoria);
             $stmt->execute();
             $results = $stmt->fetchAll();
@@ -36,7 +36,7 @@ class SubcategoriaDAO
     {
         try
         {
-            $stmt = $this->DB->prepare("INSERT INTO subcategoria (ID_SUBCATEGORIA, nombre, CATEGORIA_ID, estado) VALUES (NULL, ?, ?, ?)");
+            $stmt = $this->DB->prepare("INSERT INTO subcategoria ( nombre, CATEGORIA_ID, estado) VALUES ( ?, ?, ?)");
             $stmt->bindValue(1, $subcategoria->getNombre());
             $stmt->bindValue(2, $subcategoria->getCATEGORIA_ID());
             $stmt->bindValue(3, $subcategoria->getEstado());
@@ -59,7 +59,7 @@ class SubcategoriaDAO
     {
         try 
         {
-            $stmt = $this->DB->prepare("DELETE FROM subcategoria WHERE ID_SUBCATEGORIA = ?");
+            $stmt = $this->DB->prepare("DELETE FROM subcategoria WHERE id_subcategoria = ?");
             $stmt->bindParam(1, $id_subcategoria);
             $stmt->execute();
             $resultado = $stmt->rowCount();
@@ -81,7 +81,7 @@ class SubcategoriaDAO
     {
         try
         {
-            $stmt = $this->DB->prepare("UPDATE subcategoria SET nombre = ?, estado = ?  WHERE ID_SUBCATEGORIA = ?");
+            $stmt = $this->DB->prepare("UPDATE subcategoria SET nombre = ?, estado = ?  WHERE id_subcategoria = ?");
             $stmt->bindValue(1, $subcategoria->getNombre());
             $stmt->bindValue(2, $subcategoria->getEstado());
             $stmt->bindValue(3, $subcategoria->getID_SUBCATEGORIA());

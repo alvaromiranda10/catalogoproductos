@@ -20,7 +20,7 @@ $app->group('/usuarios', function(RouteCollectorProxy $group){
         //SESSION FIN
 
         $data = $udao->read();
-        return $this->get('view')->render($response, 'listadoUsuarios.twig',
+        return $this->get('view')->render($response, 'usuarios.twig',
             array(  'usuarios'=> $data,
                     'sessionEmail' =>$_SESSION['email']));
         
@@ -77,7 +77,7 @@ $app->group('/usuarios', function(RouteCollectorProxy $group){
 
         $data = $request->getParsedBody();
         $user = new Usuario();
-        $user->setID_USUARIO($data['ID_USUARIO']);
+        $user->setID_USUARIO($data['id_usuario']);
         $user->setNombre($data['nombre']);
         $user->setMail($data['email']);
         $user->setContrasena($data['contrasena']);

@@ -10,12 +10,12 @@
         
     public function getID_CATEGORIA()
     { 
- 		return $this->IDCATEGORIA; 
+ 		return $this->ID_CATEGORIA; 
 	} 
 
     public function setID_CATEGORIA($IDCATEGORIA)
     {  
-		$this->IDCATEGORIA = $IDCATEGORIA; 
+		$this->ID_CATEGORIA = $IDCATEGORIA; 
 	} 
 
     public function getNombre()

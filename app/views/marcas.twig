@@ -8,8 +8,9 @@
     <div class="collapse navbar-collapse justify-content-between " id="navbarNavAltMarkup">
         <div class="navbar-nav">
             <a class="nav-item nav-link" href="/usuarios">Usuarios </a>
-            <a class="nav-item nav-link" href="/marcas">Marcas</a>
-            <a class="nav-item nav-link active" href="/categorias">Categorias</a>
+            <a class="nav-item nav-link active" href="/marcas">Marcas</a>
+            <a class="nav-item nav-link" href="/categorias">Categorias</a>
+            <a class="nav-item nav-link" href="/productos">Productos</a>
         </div>
         <div class="form-inline">
             <a class="btn btn-outline-warning" href="/salir">Salir </a>
@@ -17,13 +18,13 @@
     </div>
 </nav>
 <div class="container">
-<button class="btn btn-primary m-2" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-        Crear Categoria
+    <button class="btn btn-primary m-2" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        Crear Marca
     </button>
     
     <div class="row">
         <div class="col-md-12 m-1">
-            <form action="/categorias/insert" method="post" class="collapse needs-validation" id="collapseExample" novalidate>
+            <form action="/marcas/insert" method="post" class="collapse needs-validation" id="collapseExample" novalidate>
                 <div class="form-group">
                     <label for="nombre">Nombre:</label>
                     <input type="text" name="nombre"class="form-control" required>
@@ -51,7 +52,7 @@
         </div>
         <div class="col-md-12 m-1">
             <table class="table ">
-                <thead class="thead-dark">
+                <thead class="thead-light">
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">nombre</th>
@@ -60,22 +61,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for categoria in categorias %}
+                    {% for marca in marcas %}
                     <tr>
-                        <th>{{ categoria.ID_CATEGORIA }}</th>
-                        <th>{{ categoria.nombre }}</th>
-                        <th>{{ categoria.estado }}</th>
+                        <th>{{ marca.id_marca }}</th>
+                        <th>{{ marca.nombre }}</th>
+                        <th>{{ marca.estado }}</th>
                         <th>
-                            <a href="/categorias/delete/{{categoria.ID_CATEGORIA}}" class="eliminarCategoria btn btn-danger"> Eliminar</a>
-                            <button id="actualizarCategoria" 
-                                    data-idcategoria="{{categoria.ID_CATEGORIA}}" 
-                                    data-nombre="{{categoria.nombre}}" 
-                                    data-estado="{{categoria.estado}}" 
+                            <a href="/marcas/delete/{{marca.id_marca}}" class="eliminarMarcas btn btn-danger"> Eliminar</a>
+                            <button id="actualizarMarca" 
+                                    data-idmarca="{{marca.id_marca}}" 
+                                    data-nombre="{{marca.nombre}}" 
+                                    data-estado="{{marca.estado}}" 
                                     class="actualizar btn btn-warning"
                                     data-toggle="modal" 
                                     data-target="#exampleModal"> Actualizar
                             </button>
-                            <a href="/subcategorias/listado/{{categoria.nombre}}/{{categoria.ID_CATEGORIA}}" class="btn btn-info">Ir a Subcategorias</a>
                         </th>
                     </tr>
                     {% endfor %}
@@ -89,14 +89,14 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Actualizar Categoria</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Actualizar Marca</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="/categorias/update" method="post" class="needs-validation" novalidate>
+                    <form action="/marcas/update" method="post" class="needs-validation" novalidate>
                         <div class="modal-body">
-                                <input id="idcategoria" type="hidden" name="ID_CATEGORIA">
+                                <input id="idmarca" type="hidden" name="id_marca">
                             <div class="form-group">
                                 <label for="nombre">Nombre:</label>
                                 <input id="nombre" type="text" name="nombre" class="form-control" required>
@@ -157,7 +157,7 @@
     $('#exampleModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); 
             var modal = $(this);
-            modal.find('#idcategoria').val(button.data('idcategoria'));
+            modal.find('#idmarca').val(button.data('idmarca'));
             modal.find('#nombre').val(button.data('nombre'));
             modal.find('input[name=estado]').each(function() {
             if($(this).val() == button.data('estado')){
@@ -166,7 +166,7 @@
             });
         });    
 
-    $(".eliminarCategoria").click(function (e) {
+    $(".eliminarMarcas").click(function (e) {
     var answer = confirm('Are you sure that you want to do this?');
     if (!answer) {
         e.preventDefault();

@@ -36,7 +36,7 @@ class CategoriaDAO
     {
         try
         {
-            $stmt = $this->DB->prepare("INSERT INTO categoria (ID_CATEGORIA, nombre, estado) VALUES (NULL, ?, ?)");
+            $stmt = $this->DB->prepare("INSERT INTO categoria ( nombre, estado) VALUES ( ?, ?)");
             $stmt->bindValue(1, $categoria->getNombre());
             $stmt->bindValue(2, $categoria->getEstado());
             $stmt->execute();
@@ -60,7 +60,7 @@ class CategoriaDAO
 
         try 
         {
-            $stmt = $this->DB->prepare("DELETE FROM categoria WHERE ID_CATEGORIA = ?");
+            $stmt = $this->DB->prepare("DELETE FROM categoria WHERE id_categoria = ?");
             $stmt->bindParam(1, $id_categoria);
             $stmt->execute();
             $resultado = $stmt->rowCount();
@@ -82,7 +82,7 @@ class CategoriaDAO
     {
         try
         {
-            $stmt = $this->DB->prepare("UPDATE categoria SET nombre = ?, estado = ?  WHERE ID_CATEGORIA = ?");
+            $stmt = $this->DB->prepare("UPDATE categoria SET nombre = ?, estado = ?  WHERE id_categoria = ?");
             $stmt->bindValue(1, $categoria->getNombre());
             $stmt->bindValue(2, $categoria->getEstado());
             $stmt->bindValue(3, $categoria->getID_CATEGORIA());

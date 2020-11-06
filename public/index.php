@@ -21,11 +21,14 @@ if(is_readable(__DIR__ ."./../.env"))
 $container = new Container();
 AppFactory::setContainer($container);
 
+//Set dir images
+$container->set('upload_directory', __DIR__ . '/uploads');
+
 // Set view in Container
 $container->set('view', function() {
     return Twig::create(__DIR__ .'./../app/views',
         ['cache' => false]);
-});
+    });
 
 // Instantiate App
 $app = AppFactory::create();
@@ -35,7 +38,6 @@ $app->addErrorMiddleware(true, true, true);
 
 // Add Twig-View Middleware
 $app->add(TwigMiddleware::createFromContainer($app));
-
 
 session_start();
 
@@ -48,6 +50,8 @@ $routescategorias = require __DIR__ . '/../app/routes/routescategorias.php';
 $routescategorias($app);
 $routessubcategorias = require __DIR__ . '/../app/routes/routesSubcategorias.php';
 $routessubcategorias($app);
+$routesproductos = require __DIR__ . '/../app/routes/routesproductos.php';
+$routesproductos($app);
 
 //  RUTAS PRINCIPAL
 
@@ -89,6 +93,5 @@ $app->get('/salir', function(RequestInterface $request, ResponseInterface $respo
         return $response->withHeader('Location','/ingreso')->withStatus(302);
     }
 });
-
 
 $app->run();
