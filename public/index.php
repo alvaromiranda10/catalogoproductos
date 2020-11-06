@@ -26,7 +26,7 @@ $container->set('upload_directory', __DIR__ . '/uploads');
 
 // Set view in Container
 $container->set('view', function() {
-    return Twig::create(__DIR__ .'./../app/views',
+    return Twig::create(__DIR__ .'/../app/views',
         ['cache' => false]);
     });
 
